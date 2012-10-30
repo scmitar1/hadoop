@@ -30,16 +30,6 @@ public class MultipleFieldCounter extends Configured implements Tool{
 		
 		job.setInputFormatClass(LzoTextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
-//		MultipleOutputs.addNamedOutput(job, 
-//								"src", 
-//								TextOutputFormat.class, 
-//								Text.class,
-//								IntWritable.class);
-//		MultipleOutputs.addNamedOutput(job, 
-//								"dst", 
-//								TextOutputFormat.class, 
-//								Text.class,
-//								IntWritable.class);
 		
 		FileInputFormat.setInputPaths(job, in);
 		FileOutputFormat.setOutputPath(job, out);
