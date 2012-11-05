@@ -53,8 +53,8 @@ public class MultipleFieldCounter extends Configured implements Tool{
 			job = new Job(conf);
 			job.setJarByClass(getClass());
 			
-			//job.setInputFormatClass(LzoTextInputFormat.class);
-			job.setInputFormatClass(TextInputFormat.class);
+			job.setInputFormatClass(LzoTextInputFormat.class);
+			//job.setInputFormatClass(TextInputFormat.class);
 			FileInputFormat.setInputPaths(job, in);
 
 			job.setReducerClass(MultipleFieldReducerDB.class);
@@ -70,8 +70,8 @@ public class MultipleFieldCounter extends Configured implements Tool{
 			job.setJarByClass(getClass());
 			job.setJobName("MaxSrcDstCountByIPToDB");
 			
-			//job.setInputFormatClass(LzoTextInputFormat.class);
-			job.setInputFormatClass(TextInputFormat.class);
+			job.setInputFormatClass(LzoTextInputFormat.class);
+			//job.setInputFormatClass(TextInputFormat.class);
 			FileInputFormat.setInputPaths(job, in);
 			
 			job.setReducerClass(MultipleFieldReducer.class);
