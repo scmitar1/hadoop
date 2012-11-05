@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.lib.db.DBWritable;
 
@@ -17,7 +18,7 @@ public class CountByIPTableWritable implements Writable, DBWritable{
 	private int MaxSrcCount;
 	private int MaxDstCount;
 	
-	CountByIPTableWritable (){}
+	public CountByIPTableWritable (){}
 	
 	public CountByIPTableWritable (String ip, String MaxSrc, String MaxDst,
 			int MaxSrcCount, int MaxDstCount) {
@@ -48,18 +49,18 @@ public class CountByIPTableWritable implements Writable, DBWritable{
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
-		ip = in.readUTF();
-		MaxSrc = in.readUTF();
-		MaxDst = in.readUTF();
+		ip = Text.readString(in);
+		MaxSrc = Text.readString(in);
+		MaxDst = Text.readString(in);
 		MaxSrcCount = in.readInt();
 		MaxDstCount = in.readInt();
 	}
 
 	@Override
 	public void write(DataOutput out) throws IOException {
-		out.writeChars(ip);
-		out.writeChars(MaxSrc);
-		out.writeChars(MaxDst);
+		Text.writeString(out, ip);
+		Text.writeString(out, MaxSrc);
+		Text.writeString(out, MaxDst);
 		out.writeInt(MaxSrcCount);
 		out.writeInt(MaxDstCount);
 	}

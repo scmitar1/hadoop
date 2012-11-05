@@ -1,6 +1,7 @@
 package newMapper;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,7 +11,6 @@ import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 public class MultipleFieldMapper 
 	extends Mapper<LongWritable, Text, Text, Text>{
-
 	
 	public void map(LongWritable key, Text value, Context context) 
 		throws IOException, InterruptedException {
