@@ -1,13 +1,12 @@
 package newMapper;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
-import org.apache.hadoop.io.IntWritable;
+import mapReduceFilter.MapResCondition;
+
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 public class MultipleFieldMapper 
 	extends Mapper<LongWritable, Text, Text, Text>{
@@ -16,7 +15,9 @@ public class MultipleFieldMapper
 		throws IOException, InterruptedException {
 		String line = value.toString();
 		
-		writtingMap(line, context, "Src:", "Dst:");
+		if ( MapResCondition.hasTimeField(line) ) {
+			writtingMap(line, context, "Src:", "Dst:");
+		}
 	}
 	
 	private void writtingMap(String line, Context context, String... keys) 
