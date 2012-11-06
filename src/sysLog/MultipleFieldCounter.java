@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import newMapper.MultipleFieldMapper;
 import newReducer.MultipleFieldReducer;
-import newReducer.extendDB.MultipleFieldReducerDB;
+import newReducer.DBReducer.MultipleFieldReducerDB;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -21,6 +21,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import util.PostgresOutputFormat;
 
 import com.hadoop.mapreduce.LzoTextInputFormat;
 
@@ -61,8 +63,8 @@ public class MultipleFieldCounter extends Configured implements Tool{
 			job.setJobName("MaxSrcDstCountByIPToDB");
 			job.setOutputFormatClass(DBOutputFormat.class);
 			
-			DBOutputFormat.setOutput(job, "public.\"DayCountByIP\"", "\"ip\"", 
-					"\"MaxSrc\"", "\"MaxDst\"", "\"MaxSrcCount\"", "\"MaxDstCount\"");
+			PostgresOutputFormat.setOutput(job, "DayCountByIP", "ip", 
+					"MaxSrc", "MaxDst", "MaxSrcCount", "MaxDstCount");
 		} else {
 			logger.info("Output is FileOutput Reducer");
 			
@@ -89,13 +91,20 @@ public class MultipleFieldCounter extends Configured implements Tool{
 	}
 	
 	private boolean isDBOutput( String[] params ) {
-		String dbParam = params[2];
-		if ( dbParam.equals("db") ) {
-			return true;
-		} else if ( dbParam.equals("file")) {
-			return false;
+		boolean isDBOut = false;
+		
+		if ( params.length == 3 ) {
+			String dbParam = params[2];
+			
+			if ( params.length == 3 && dbParam.equals("db") ) {
+				isDBOut = true;
+			} else if ( params.length == 3 && dbParam.equals("file")) {
+				isDBOut = false;
+			}
+		} else {
+			isDBOut = false;
 		}
-		return false;
+		return isDBOut;
 	}
 	
 	public static void main (String[] args) throws Exception {
